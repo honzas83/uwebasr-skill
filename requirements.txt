@@ -1,1 +1,2 @@
-requests
+# No external dependencies required.
+# This project uses only Python's built-in libraries (urllib, json, etc.).

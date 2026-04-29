@@ -5,13 +5,15 @@ import os
 import sys
 import argparse
 import logging
-from pprint import pprint
-import requests
 import subprocess
 from queue import Queue
 import threading
 import time
 import json
+import urllib.request
+import urllib.parse
+import urllib.error
+import http.cookiejar
 
 UWEBASR_URL = "https://uwebasr.zcu.cz"
 N_TRIES = 5
@@ -53,37 +55,48 @@ def get_convert_url(uwebasr_url=None):
 
     return uwebasr_url+"/utils/v2/convert-speechcloud-json"
 
-def recognize(model_url, fn, cookies=None, no_ffmpeg=False):
+def recognize(model_url, fn, opener=None, no_ffmpeg=False):
     if no_ffmpeg:
         fr = open(fn, "rb")
+        data = fr.read()
+        fr.close()
     else:
         command = ["ffmpeg", "-xerror", "-hide_banner", "-loglevel", "error", "-i", fn, "-ar", "16000", "-ac", "1", "-vn", "-c:a", "libvorbis", "-q:a", "10", "-f", "ogg", "-"]
         ffmpeg = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=None)
-        fr = ffmpeg.stdout
+        data = ffmpeg.stdout.read()
+        ffmpeg.wait()
 
-    r = requests.post(model_url+"?format=speechcloud_json", data=fr, cookies=cookies)
-    fr.close()
+    url = model_url + "?format=speechcloud_json"
+    req = urllib.request.Request(url, data=data, method='POST')
+    
+    if opener is None:
+        opener = urllib.request.build_opener()
 
-    r.raise_for_status()
-    logger.info("Used SpeechCloud-SessionID: %s", r.headers.get("SpeechCloud-SessionID"))
+    try:
+        with opener.open(req) as r:
+            logger.info("Used SpeechCloud-SessionID: %s", r.headers.get("SpeechCloud-SessionID"))
+            data_json = json.loads(r.read().decode('utf-8'))
+            return data_json
+    except urllib.error.HTTPError as e:
+        logger.error("HTTP Error %s: %s", e.code, e.reason)
+        raise
 
-    data_json = r.json()
-    cookie_jar = r.cookies
-    if cookies is not None:
-        return data_json, cookie_jar
-    else:
-        return data_json
 
+def convert(convert_url, data_json, format, opener=None):
+    url = convert_url + "?format=" + format
+    req = urllib.request.Request(url, data=json.dumps(data_json).encode('utf-8'), method='POST')
+    req.add_header('Content-Type', 'application/json')
 
-def convert(convert_url, data_json, format):
-    r = requests.post(convert_url+"?format="+format, json=data_json)
-    r.raise_for_status()
+    if opener is None:
+        opener = urllib.request.build_opener()
 
-    return r.text
+    with opener.open(req) as r:
+        return r.read().decode('utf-8')
 
 
 def _process_queue(model_url, convert_url, queue, cmdline_args):
-    cookie_jar = requests.cookies.RequestsCookieJar()
+    cj = http.cookiejar.CookieJar()
+    opener = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(cj))
 
     while True:
         fn = queue.get()
@@ -94,15 +107,15 @@ def _process_queue(model_url, convert_url, queue, cmdline_args):
             retry_count = 0
             while True:
                 try:
-                    if args.no_cookies:
+                    if cmdline_args.no_cookies:
                         data_json = recognize(model_url, fn, no_ffmpeg=cmdline_args.no_ffmpeg)
                     else:
-                        data_json, cookie_jar = recognize(model_url, fn, cookies=cookie_jar, no_ffmpeg=cmdline_args.no_ffmpeg)
+                        data_json = recognize(model_url, fn, opener=opener, no_ffmpeg=cmdline_args.no_ffmpeg)
 
                     # Break the cycle
                     break
-                except requests.HTTPError as e:
-                    if e.response.status_code == 503:
+                except urllib.error.HTTPError as e:
+                    if e.code == 503:
                         retry_count += 1
                         if retry_count == N_TRIES:
                             raise
@@ -115,7 +128,7 @@ def _process_queue(model_url, convert_url, queue, cmdline_args):
 
             base_fn = os.path.splitext(fn)[0]
 
-            for ext, format in FORMATS.items():
+            for ext, format_val in FORMATS.items():
                 if cmdline_args.format and ext not in cmdline_args.format:
                     # This format is not requested to be generated
                     continue
@@ -134,12 +147,12 @@ def _process_queue(model_url, convert_url, queue, cmdline_args):
                     logger.error("File already exists: %s, terminating... (use --overwrite to force file overwrite)", out_fn)
                     os._exit(-1)
 
-                logger.info("Writing file %s (format %s)", out_fn, format)
+                logger.info("Writing file %s (format %s)", out_fn, format_val)
                 with open(out_fn, "w", encoding="utf-8") as fw:
-                    if format == SPEECHCLOUD_JSON:
+                    if format_val == SPEECHCLOUD_JSON:
                         output = json.dumps(data_json, indent=4)
                     else:
-                        output = convert(convert_url, data_json, format) 
+                        output = convert(convert_url, data_json, format_val, opener=opener if not cmdline_args.no_cookies else None) 
 
                     fw.write(output)
         except:
