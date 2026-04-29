@@ -2,23 +2,45 @@
 
 A Python client for the [UWebASR](https://uwebasr.zcu.cz/) ASR service. This repository is structured as a **Gemini Skill**, allowing AI agents to use it as a tool for speech-to-text tasks.
 
-## Quick Start (Standalone Script)
+## Usage
 
+### Quick Start (Standalone Script)
 If you just want to use the transcription script directly without cloning the whole repository:
 
-1. **Download the script**:
+1. **Download**:
    ```bash
    curl -O https://raw.githubusercontent.com/honzas83/uwebasr-skill/main/scripts/uwebasr.py
    chmod +x uwebasr.py
    ```
-
-2. **Run it**:
-   Since the script uses only Python built-in libraries, no `pip install` is required.
+2. **Run**:
    ```bash
    python3 uwebasr.py speechcloud/generic/cs/zipformer your_audio.mp3 --format txt
    ```
+   *Note: No external dependencies required. Only Python 3 and optionally [ffmpeg](https://ffmpeg.org/) for audio conversion.*
 
-*Note: For automatic audio conversion, ensure [ffmpeg](https://ffmpeg.org/) is installed on your system.*
+### General Command Structure
+If you have cloned the repository, run from the root:
+```bash
+python scripts/uwebasr.py [MODEL] [FILES...] --format [FORMAT]
+```
+
+**Example:**
+```bash
+python scripts/uwebasr.py speechcloud/generic/cs/zipformer HDS09.mp3 --format txt
+```
+
+### Supported Formats
+- `txt`: Plain text (default)
+- `vtt`: WebVTT subtitles
+- `json`: Original SpeechCloud JSON with timestamps
+- `s.txt` / `s.vtt`: Segmentation enabled
+- `jsonl`: Line-delimited JSON
+
+### Advanced Options
+- `--n-workers`: Number of parallel threads for processing multiple files.
+- `--no-ffmpeg`: Skip ffmpeg (requires 16kHz mono Ogg/Vorbis files).
+- `--output-dir`: Specify a custom directory for output files.
+- `--suffix`: Add a custom suffix to output filenames.
 
 ## Installation & Skill Setup
 
@@ -49,32 +71,6 @@ To install this skill in [Codex](https://github.com/google/codex):
    git clone git@github.com:honzas83/uwebasr-skill.git ~/.codex/skills/uwebasr-client
    ```
 2. The skill will be automatically detected in your next Codex session.
-
-## Usage
-
-Run the script from the root directory:
-
-```bash
-python scripts/uwebasr.py [MODEL] [FILE] --format [FORMAT]
-```
-
-Example:
-```bash
-python scripts/uwebasr.py speechcloud/generic/cs/zipformer HDS09.mp3 --format txt
-```
-
-### Supported Formats
-- `json`: Original SpeechCloud JSON
-- `txt`: Plain text
-- `s.txt`: Text with segmentation
-- `vtt`: WebVTT subtitles
-- `s.vtt`: WebVTT with segmentation
-- `jsonl`: Line-delimited JSON
-
-### Options
-- `--n-workers`: Number of parallel threads.
-- `--no-ffmpeg`: Do not use ffmpeg (submit files directly).
-- `--output-dir`: Directory to save results.
 
 ## Acknowledgments & Citations
 
