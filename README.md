@@ -66,5 +66,18 @@ python scripts/uwebasr.py speechcloud/generic/cs/zipformer HDS09.mp3 --format tx
 - `--no-ffmpeg`: Do not use ffmpeg (submit files directly).
 - `--output-dir`: Directory to save results.
 
+## Acknowledgments & Citations
+
+The UWebASR service is integrated into the national research infrastructure **[LINDAT/CLARIAH-CZ](https://lindat.cz)**, which is part of the European **CLARIN ERIC** network.
+
+### Citing the service
+If you use this service for your research, please cite the following papers:
+
+- **English, German, and Czech Models:**
+  Lehečka, J., Švec, J., Psutka, J.V., Ircing, P. (2023) *Transformer-based Speech Recognition Models for Oral History Archives in English, German, and Czech*. Proc. INTERSPEECH 2023, 201-205, doi: [10.21437/Interspeech.2023-872](https://doi.org/10.21437/Interspeech.2023-872)
+
+- **Slovak Model:**
+  Lehečka, J., Psutka, J.V., Psutka, J. (2023) *Transfer Learning of Transformer-Based Speech Recognition Models from Czech to Slovak*. In: Text, Speech, and Dialogue. TSD 2023. Lecture Notes in Computer Science, vol 14286. Springer, Cham. [https://doi.org/10.1007/978-3-031-40498-6_29](https://doi.org/10.1007/978-3-031-40498-6_29)
+
 ## Contributing
 This project is optimized for agentic workflows. If you add new functionality, please update `SKILL.md` accordingly.
