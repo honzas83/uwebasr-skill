@@ -7,6 +7,12 @@ description: Provides ASR (Automatic Speech Recognition) services via uwebasr.zc
 
 This skill provides an interface to the UWebASR service from the University of West Bohemia for Automatic Speech Recognition (ASR).
 
+## Operational Requirements
+
+- **Network Connectivity**: This skill requires an active internet connection to communicate with the UWebASR API at `https://uwebasr.zcu.cz`.
+- **Performance**: Transcription speed is typically **10x faster than real-time** (e.g., a 10-minute recording takes approximately 1 minute to process). However, processing time depends on the current server load and file size.
+- **Dependencies**: No external Python libraries are required. `ffmpeg` is recommended for automatic audio format conversion.
+
 ## Supported Languages & Models
 
 ### Model Selection Strategy
