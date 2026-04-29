@@ -1,6 +1,6 @@
 # UWebASR Client Skill
 
-A Python client for the [uwebasr.zcu.cz](https://uwebasr.zcu.cz/) ASR service. This repository is structured as a **Gemini Skill**, allowing AI agents to use it as a tool for speech-to-text tasks.
+A Python client for the [UWebASR](https://uwebasr.zcu.cz/) ASR service. This repository is structured as a **Gemini Skill**, allowing AI agents to use it as a tool for speech-to-text tasks.
 
 ## Installation
 

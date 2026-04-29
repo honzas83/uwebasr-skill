@@ -16,7 +16,7 @@ This skill provides an interface to the UWebASR service from the University of W
 2. **Wav2Vec 2.0**: Use for Dutch or if Zipformer is unavailable.
    - Format: `speechcloud/generic/{lang}`
    - Available for: `cs`, `sk`, `de`, `en`, `nl` (Dutch).
-3. **Malach (Oral History)**: Optimized for historical recordings and specific oral history dialects.
+3. **MALACH (Oral History)**: Optimized for historical recordings and specific oral history dialects.
    - Format: `speechcloud/malach/{lang}`
    - Available for: `cs`, `sk`, `de`, `en`.
 
@@ -42,7 +42,7 @@ python scripts/uwebasr.py [MODEL] [FILES...] --format [FORMAT]
 ```
 
 ## Agent Guidelines
-1. **Choose the best model**: Always prefer `zipformer` models (e.g., `speechcloud/generic/cs/zipformer`) unless the language is only supported by Wav2Vec (Dutch) or the context is Oral History (Malach).
+1. **Choose the best model**: Always prefer `zipformer` models (e.g., `speechcloud/generic/cs/zipformer`) unless the language is only supported by Wav2Vec (Dutch) or the context is MALACH (Oral History).
 2. **Language Detection**: If the user doesn't specify a language but provides a file, ask or attempt to detect (Czech is the default).
 3. **Format Selection**: 
    - `txt`: Plain text (default).
@@ -67,3 +67,4 @@ python scripts/generic/de/zipformer video_audio.wav --format vtt
 ```bash
 python scripts/uwebasr.py speechcloud/malach/cs archive_tape.mp3 --format s.txt
 ```
+
