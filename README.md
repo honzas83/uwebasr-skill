@@ -2,24 +2,34 @@
 
 A Python client for the [UWebASR](https://uwebasr.zcu.cz/) ASR service. This repository is structured as a **Gemini Skill**, allowing AI agents to use it as a tool for speech-to-text tasks.
 
-## Installation
+## Quick Start (Standalone Script)
 
-### As a standalone script
+If you just want to use the transcription script directly without cloning the whole repository:
+
+1. **Download the script**:
+   ```bash
+   curl -O https://raw.githubusercontent.com/honzas83/uwebasr-skill/main/scripts/uwebasr.py
+   chmod +x uwebasr.py
+   ```
+
+2. **Run it**:
+   Since the script uses only Python built-in libraries, no `pip install` is required.
+   ```bash
+   python3 uwebasr.py speechcloud/generic/cs/zipformer your_audio.mp3 --format txt
+   ```
+
+*Note: For automatic audio conversion, ensure [ffmpeg](https://ffmpeg.org/) is installed on your system.*
+
+## Installation & Skill Setup
+
+### As a local repository
+If you prefer to have the full project structure:
 1. Clone the repository:
    ```bash
    git clone git@github.com:honzas83/uwebasr-skill.git
    cd uwebasr-skill
    ```
-
-2. Install dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-3. (Optional) Install `ffmpeg` for automatic audio conversion:
-   - Linux: `sudo apt install ffmpeg`
-   - macOS: `brew install ffmpeg`
-   - Windows: Download from [ffmpeg.org](https://ffmpeg.org/download.html)
+2. (Optional) External dependencies are no longer required, but you can check `requirements.txt`.
 
 ### As a Gemini Skill
 To use this as a tool within Gemini CLI:
