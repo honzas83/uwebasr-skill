@@ -32,6 +32,14 @@ To use this as a tool within Gemini CLI:
    /skills reload
    ```
 
+### As a Codex Skill
+To install this skill in [Codex](https://github.com/google/codex):
+1. Clone the repository into your Codex skills directory:
+   ```bash
+   git clone git@github.com:honzas83/uwebasr-skill.git ~/.codex/skills/uwebasr-client
+   ```
+2. The skill will be automatically detected in your next Codex session.
+
 ## Usage
 
 Run the script from the root directory:
