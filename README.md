@@ -1,6 +1,6 @@
-# UWebASR Client Skill
+# UWebASR Client & Skill
 
-A Python client for the [UWebASR](https://uwebasr.zcu.cz/) ASR service. This repository is structured as a **Gemini Skill**, allowing AI agents to use it as a tool for speech-to-text tasks.
+A Python client for the [UWebASR](https://uwebasr.zcu.cz/) ASR service. This repository is structured as a **Skill for agent**, allowing AI agents to use it as a tool for speech-to-text tasks.
 
 ## Usage
 
@@ -53,7 +53,7 @@ If you prefer to have the full project structure:
    ```
 2. (Optional) External dependencies are no longer required, but you can check `requirements.txt`.
 
-### As a Gemini Skill
+### As a Skill for agent
 To use this as a tool within Gemini CLI:
 1. Install the skill:
    ```bash
@@ -84,6 +84,3 @@ If you use this service for your research, please cite the following papers:
 
 - **Slovak Model:**
   Lehečka, J., Psutka, J.V., Psutka, J. (2023) *Transfer Learning of Transformer-Based Speech Recognition Models from Czech to Slovak*. In: Text, Speech, and Dialogue. TSD 2023. Lecture Notes in Computer Science, vol 14286. Springer, Cham. [https://doi.org/10.1007/978-3-031-40498-6_29](https://doi.org/10.1007/978-3-031-40498-6_29)
-
-## Contributing
-This project is optimized for agentic workflows. If you add new functionality, please update `SKILL.md` accordingly.

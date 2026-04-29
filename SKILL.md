@@ -3,7 +3,7 @@ name: uwebasr-client
 description: Provides ASR (Automatic Speech Recognition) services via uwebasr.zcu.cz. Use this skill to transcribe audio files in multiple languages (CS, SK, EN, DE, PL, HU, HR, SR, NL) using state-of-the-art models like Zipformer.
 ---
 
-# UWebASR Client Skill
+# UWebASR Client & Skill
 
 This skill provides an interface to the UWebASR service from the University of West Bohemia for Automatic Speech Recognition (ASR).
 
@@ -73,4 +73,3 @@ python scripts/generic/de/zipformer video_audio.wav --format vtt
 ```bash
 python scripts/uwebasr.py speechcloud/malach/cs archive_tape.mp3 --format s.txt
 ```
-
