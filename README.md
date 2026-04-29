@@ -1,13 +1,14 @@
-# UWebASR Client
+# UWebASR Client Skill
 
 A Python client for the [uwebasr.zcu.cz](https://uwebasr.zcu.cz/) ASR service. This repository is structured as a **Gemini Skill**, allowing AI agents to use it as a tool for speech-to-text tasks.
 
 ## Installation
 
+### As a standalone script
 1. Clone the repository:
    ```bash
-   git clone https://github.com/YOUR_USERNAME/uwebasr-client.git
-   cd uwebasr-client
+   git clone git@github.com:honzas83/uwebasr-skill.git
+   cd uwebasr-skill
    ```
 
 2. Install dependencies:
@@ -19,6 +20,17 @@ A Python client for the [uwebasr.zcu.cz](https://uwebasr.zcu.cz/) ASR service. T
    - Linux: `sudo apt install ffmpeg`
    - macOS: `brew install ffmpeg`
    - Windows: Download from [ffmpeg.org](https://ffmpeg.org/download.html)
+
+### As a Gemini Skill
+To use this as a tool within Gemini CLI:
+1. Install the skill:
+   ```bash
+   gemini skills install git@github.com:honzas83/uwebasr-skill.git --scope user
+   ```
+2. Reload skills in your Gemini session:
+   ```bash
+   /skills reload
+   ```
 
 ## Usage
 
@@ -46,5 +58,5 @@ python scripts/uwebasr.py speechcloud/generic/cs/zipformer HDS09.mp3 --format tx
 - `--no-ffmpeg`: Do not use ffmpeg (submit files directly).
 - `--output-dir`: Directory to save results.
 
-## Skill Integration
-This project includes a `SKILL.md` file, which enables Gemini CLI and other agentic tools to understand and use this script autonomously.
+## Contributing
+This project is optimized for agentic workflows. If you add new functionality, please update `SKILL.md` accordingly.
