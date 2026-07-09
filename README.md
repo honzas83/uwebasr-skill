@@ -45,7 +45,7 @@ Use the full UWebASR model path, including the instance prefix. Public UWebASR m
 ### Advanced Options
 - `--format`: Generate only the selected format. Can be used multiple times.
 - `--n-workers`: Number of parallel threads for processing multiple files.
-- `--no-ffmpeg`: Skip ffmpeg (requires 16kHz mono Ogg/Vorbis files).
+- `--no-ffmpeg`: Skip local ffmpeg conversion and submit the file directly to the UWebASR API.
 - `--no-cookies`: Disable cookie handling between API calls.
 - `--overwrite`: Allow overwriting existing output files.
 - `--output-dir`: Specify a custom directory for output files.
@@ -93,6 +93,10 @@ To install this skill in [Codex](https://github.com/google/codex):
    git clone git@github.com:honzas83/uwebasr-skill.git ~/.codex/skills/uwebasr-client
    ```
 2. The skill will be automatically detected in your next Codex session.
+
+## License
+
+MIT License. See [LICENSE](LICENSE).
 
 ## Acknowledgments & Citations
 
